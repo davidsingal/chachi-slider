@@ -8,32 +8,33 @@
 	$.fn.modSlider = function(options) {
 		
 		var settings = $.extend({
-			velocity: 1000,
-			showNav: true
+			velocity: 1000
 		}, options);
-		
-		var target, panelWidth, panelsWrapper, navigation;
 		
 		var slider = {
 			init: function(el) {
-				target = $(el);
-				panels = target.find(".mod-panel");
-				panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>");
-				navigation = $("<div class=\"mod-nav\"></div>");
-				
+			
 				var self = this,
+					target = $(el),
+					panelWidth = $(target).width(),
+					panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>"),
+					navigation = $("<div class=\"mod-nav\"></div>"),
+					panels = target.find(".mod-panel"),
 					wrapper = $("<div class=\"mod-wrapper\"></div>"),
-					navHtml = "";			
+					navHtml = "",
+					links;
 				
-				if (settings.showNav) {
-					target.append(navigation);
-					
-					for (var i = 0; i < panels.length; i++) {
-						navHtml += "<li><a href=\"#panel" + i + "\">" + (i+1) + "</a></li>";
-					}
-					
-					navigation.append("<ul>" + navHtml + "</ul>");
-				}			
+				target.append(navigation);
+				
+				for (var i = 0; i < panels.length; i++) {
+					navHtml += "<li><a href=\"#panel" + i + "\">" + (i+1) + "</a></li>";
+				}
+				
+				navigation.append("<ul>" + navHtml + "</ul>");		
+				
+				links = navigation.find("a");
+				
+				$(links[0]).addClass("current");
 				
 				target.append(wrapper);
 				
@@ -41,11 +42,13 @@
 				
 				panels.appendTo(panelsWrapper);
 				
-				self.size();
+				panelWidth = $(target).width();
 				
-				links = navigation.find("a");
+				self.size(panels, panelWidth, panelsWrapper);
 				
-				$(links[0]).addClass("current");
+				panels.css("width", panelWidth + "px");
+				
+				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
 				
 				$.each(links, function(index, Element) {
 					$(Element).click(function(ev) {
@@ -55,7 +58,7 @@
 						
 						t = this.href.split("#panel");
 						
-						$(el).find("div.mod-panels-wrapper").stop().animate({
+						panelsWrapper.stop().animate({
 							"left": -t[1] * panelWidth
 						}, settings.velocity, function() {
 							$(Element).addClass("current");
@@ -63,23 +66,21 @@
 					});
 				});
 				
-				console.log(panelsWrapper);
+				$(window).resize(function() {
+					panelWidth = target.width();
+					slider.size(panels, panelWidth, panelsWrapper);
+				});
 			},
-			size: function() {
-				var self = this;
-				panelWidth = $(target).width();
-				
+			size: function(panels, panelWidth, panelsWrapper) {
 				panels.css("width", panelWidth + "px");
 				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
 			}
 		};
 		
-		$(window).resize(function() {
-			slider.size();
-		});
 		
-		return this.each(function(index, Element) {
-			slider.init(Element);
+		
+		return this.each(function() {
+			slider.init(this);
 		});
 		
 	};

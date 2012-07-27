@@ -1,3 +1,4 @@
 body {width: 90%; min-width: 500px; max-width: 1200px; margin: auto;}
 
-.chachi-mod-slider {margin: 50px 0;}
+.mod-slider {margin: 100px 0;}
+.mod-nav .current {color: #c00;}
