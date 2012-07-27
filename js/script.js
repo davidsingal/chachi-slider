@@ -1,5 +1,5 @@
 $(window).load(function() {
-	$("div#modSlider").modSlider({
+	$("div.mod-slider").modSlider({
 		velocity: 500
 	});
 });

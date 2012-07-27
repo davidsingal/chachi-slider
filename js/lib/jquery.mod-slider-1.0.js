@@ -12,50 +12,38 @@
 			showNav: true
 		}, options);
 		
-		var target = this,
-			panelWidth;
+		var target, panelWidth, panelsWrapper, navigation;
 		
 		var slider = {
-			vars: {
-				panels: target.find(".mod-panel"),
-				panelsWrapper: $("<div class=\"mod-panels-wrapper\"></div>"),
-				navigation: $("<div class=\"mod-nav\"></div>")
-			},
-			init: function() {
+			init: function(el) {
+				target = $(el);
+				panels = target.find(".mod-panel");
+				panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>");
+				navigation = $("<div class=\"mod-nav\"></div>");
+				
 				var self = this,
 					wrapper = $("<div class=\"mod-wrapper\"></div>"),
-					navHtml = "";				
+					navHtml = "";			
 				
 				if (settings.showNav) {
-					target.append(self.vars.navigation);
+					target.append(navigation);
 					
-					for (var i = 0; i < self.vars.panels.length; i++) {
+					for (var i = 0; i < panels.length; i++) {
 						navHtml += "<li><a href=\"#panel" + i + "\">" + (i+1) + "</a></li>";
 					}
 					
-					self.vars.navigation.append("<ul>" + navHtml + "</ul>");
+					navigation.append("<ul>" + navHtml + "</ul>");
 				}			
 				
 				target.append(wrapper);
 				
-				wrapper.append(self.vars.panelsWrapper);
+				wrapper.append(panelsWrapper);
 				
-				self.vars.panels.appendTo(self.vars.panelsWrapper);
+				panels.appendTo(panelsWrapper);
 				
 				self.size();
 				
-				self.nav();
-			},
-			size: function() {
-				var self = this;
-				panelWidth = $(target).width();
-				
-				self.vars.panels.css("width", panelWidth + "px");
-				self.vars.panelsWrapper.css("width", (panelWidth * self.vars.panels.length) + "px");
-			},
-			nav: function() {
-				var self = this,
-					links = self.vars.navigation.find("a"), t;
+				links = navigation.find("a");
 				
 				$(links[0]).addClass("current");
 				
@@ -67,23 +55,31 @@
 						
 						t = this.href.split("#panel");
 						
-						self.vars.panelsWrapper.stop().animate({
+						$(el).find("div.mod-panels-wrapper").stop().animate({
 							"left": -t[1] * panelWidth
 						}, settings.velocity, function() {
 							$(Element).addClass("current");
 						});
 					});
 				});
+				
+				console.log(panelsWrapper);
+			},
+			size: function() {
+				var self = this;
+				panelWidth = $(target).width();
+				
+				panels.css("width", panelWidth + "px");
+				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
 			}
 		};
 		
 		$(window).resize(function() {
 			slider.size();
-			console.log();
 		});
 		
-		return target.each(function() {
-			slider.init();
+		return this.each(function(index, Element) {
+			slider.init(Element);
 		});
 		
 	};
