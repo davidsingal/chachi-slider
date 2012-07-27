@@ -1,11 +1,11 @@
 /*
- * jQuery Chachi Mod Slider v1.0
+ * jQuery mod Mod Slider v1.0
  * Free to use and abuse.
- * https://github.com/davidsingal/chachi-mod-slider
+ * https://github.com/davidsingal/mod-slider
  */
 
 (function($) {
-	$.fn.chachiModSlider = function(options) {
+	$.fn.modSlider = function(options) {
 		
 		var settings = $.extend({
 			velocity: 1000,
@@ -17,13 +17,13 @@
 		
 		var slider = {
 			vars: {
-				panels: target.find(".chachi-panel"),
-				panelsWrapper: $("<div class=\"chachi-panels-wrapper\"></div>"),
-				navigation: $("<div class=\"chachi-nav\"></div>")
+				panels: target.find(".mod-panel"),
+				panelsWrapper: $("<div class=\"mod-panels-wrapper\"></div>"),
+				navigation: $("<div class=\"mod-nav\"></div>")
 			},
 			init: function() {
 				var self = this,
-					wrapper = $("<div class=\"chachi-wrapper\"></div>"),
+					wrapper = $("<div class=\"mod-wrapper\"></div>"),
 					navHtml = "";				
 				
 				if (settings.showNav) {
@@ -51,7 +51,7 @@
 				panelWidth = $(target).width();
 				
 				self.vars.panels.css("width", panelWidth + "px");
-				self.vars.panelsWrapper.css("width", (panelWidth * 3) + "px");
+				self.vars.panelsWrapper.css("width", (panelWidth * self.vars.panels.length) + "px");
 			},
 			nav: function() {
 				var self = this,
