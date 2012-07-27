@@ -57,6 +57,8 @@
 				var self = this,
 					links = self.vars.navigation.find("a"), t;
 				
+				$(links[0]).addClass("current");
+				
 				$.each(links, function(index, Element) {
 					$(Element).click(function(ev) {
 						ev.preventDefault();
