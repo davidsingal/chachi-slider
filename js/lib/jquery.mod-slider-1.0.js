@@ -30,11 +30,13 @@
 					navHtml += "<li><a href=\"#panel" + i + "\">" + (i+1) + "</a></li>";
 				}
 				
-				navigation.append("<ul>" + navHtml + "</ul>");		
-				
-				links = navigation.find("a");
-				
-				$(links[0]).addClass("current");
+				if (panels.length > 1) {
+					navigation.append("<ul>" + navHtml + "</ul>");
+					
+					links = navigation.find("a");
+
+					$(links[0]).addClass("current");
+				}
 				
 				target.append(wrapper);
 				
@@ -50,21 +52,23 @@
 				
 				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
 				
-				$.each(links, function(index, Element) {
-					$(Element).click(function(ev) {
-						ev.preventDefault();
+				if (panels.length > 1) {					
+					$.each(links, function(index, Element) {
+						$(Element).click(function(ev) {
+							ev.preventDefault();
 						
-						$(links).removeClass("current");
+							$(links).removeClass("current");
 						
-						t = this.href.split("#panel");
+							t = this.href.split("#panel");
 						
-						panelsWrapper.stop().animate({
-							"left": -t[1] * panelWidth
-						}, settings.velocity, function() {
-							$(Element).addClass("current");
+							panelsWrapper.stop().animate({
+								"left": -t[1] * panelWidth
+							}, settings.velocity, function() {
+								$(Element).addClass("current");
+							});
 						});
 					});
-				});
+				}
 				
 				$(window).resize(function() {
 					panelWidth = target.width();
@@ -76,8 +80,6 @@
 				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
 			}
 		};
-		
-		
 		
 		return this.each(function() {
 			slider.init(this);
