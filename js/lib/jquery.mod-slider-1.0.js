@@ -16,7 +16,7 @@
 			
 				var self = this,
 					target = $(el),
-					panelWidth = $(target).width(),
+					panelWidth = $(target).width() + 20,
 					panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>"),
 					navigation = $("<div class=\"mod-nav\"></div>"),
 					panels = target.find(".mod-panel"),
@@ -43,8 +43,6 @@
 				wrapper.append(panelsWrapper);
 				
 				panels.appendTo(panelsWrapper);
-				
-				panelWidth = $(target).width();
 				
 				self.size(panels, panelWidth, panelsWrapper);
 				
