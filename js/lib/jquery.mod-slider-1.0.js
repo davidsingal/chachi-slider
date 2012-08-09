@@ -6,67 +6,86 @@
 
 (function($) {
 	$.fn.modSlider = function(options) {
-		
 		var settings = $.extend({
+			auto: true,
+			pause: 3000,
 			velocity: 1000
 		}, options);
 		
 		var slider = {
 			init: function(el) {
-			
 				var self = this,
 					target = $(el),
-					panelWidth = $(target).width() + 20,
 					panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>"),
 					navigation = $("<div class=\"mod-nav\"></div>"),
-					panels = target.find(".mod-panel"),
 					wrapper = $("<div class=\"mod-wrapper\"></div>"),
+					panels = target.find(".mod-panel"),
+					panelWidth = $(target).width(),
 					navHtml = "",
 					links;
 				
+				target.append(wrapper);	
+				wrapper.append(panelsWrapper);
+				panels.appendTo(panelsWrapper);
 				target.append(navigation);
 				
+				self.size(panels, panelWidth, panelsWrapper);
+				
 				for (var i = 0; i < panels.length; i++) {
-					navHtml += "<li><a href=\"#panel" + i + "\">" + (i+1) + "</a></li>";
+					navHtml += "<li><a href=\"#panel" + i + "\">" + (i + 1) + "</a></li>";
 				}
 				
 				if (panels.length > 1) {
 					navigation.append("<ul>" + navHtml + "</ul>");
-					
 					links = navigation.find("a");
-
 					$(links[0]).addClass("current");
 				}
 				
-				target.append(wrapper);
+				var counter = 0, timer, interval;
 				
-				wrapper.append(panelsWrapper);
-				
-				panels.appendTo(panelsWrapper);
-				
-				self.size(panels, panelWidth, panelsWrapper);
-				
-				panels.css("width", panelWidth + "px");
-				
-				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
-				
-				if (panels.length > 1) {					
+				if (panels.length > 1) {
 					$.each(links, function(index, Element) {
 						$(Element).click(function(ev) {
 							ev.preventDefault();
-						
-							$(links).removeClass("current");
-						
+							
+							clearInterval(timer);
+
 							t = this.href.split("#panel");
-						
-							panelsWrapper.stop().animate({
-								"left": -t[1] * panelWidth
-							}, settings.velocity, function() {
-								$(Element).addClass("current");
-							});
+							counter = parseInt(t[1]);
+							
+							timer = setInterval(interval, settings.pause);
+							
+							moveSlide(counter);
 						});
 					});
 				}
+				
+				if (settings.auto) {
+					interval = function() {
+						counter++;
+						if (counter == panels.length) counter = 0;
+						moveSlide(counter);
+					};
+					timer = setInterval(interval, settings.pause);
+				}
+				
+				function moveSlide(x) {
+					$(links).removeClass("current");
+					panelsWrapper.stop().animate({
+						"left": -x * (panelWidth + 20)
+					}, settings.velocity, function() {
+						$(links[x]).addClass("current");
+					});
+				}
+				
+				panels.hover(
+					function() {
+						clearInterval(timer);
+					},
+					function() {
+						timer = setInterval(interval, settings.pause);
+					}
+				);
 				
 				$(window).resize(function() {
 					panelWidth = target.width();
@@ -74,14 +93,16 @@
 				});
 			},
 			size: function(panels, panelWidth, panelsWrapper) {
-				panels.css("width", panelWidth + "px");
-				panelsWrapper.css("width", (panelWidth * panels.length) + "px");
+				panels.css({
+					"width": panelWidth + "px",
+					"margin-right": 20 + "px"
+				});
+				panelsWrapper.css("width", ((panelWidth + 20) * panels.length) + "px");
 			}
 		};
 		
 		return this.each(function() {
 			slider.init(this);
 		});
-		
 	};
 })(jQuery);
