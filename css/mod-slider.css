@@ -1,10 +1,10 @@
 /*
- * jQuery mod Mod Slider v1.0
+ * jQuery mod Mod Slider v1.1
  * Free to use and abuse.
  * https://github.com/davidsingal/mod-mod-slider
  */
  
-.mod-slider {position: relative;}
+.mod-slider {position: relative; display: none;}
 .mod-wrapper {overflow: hidden;}
 .mod-panels-wrapper {position: relative; left: 0;}
 .mod-panel {position: relative; float: left;}
