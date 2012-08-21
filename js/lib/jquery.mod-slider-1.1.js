@@ -72,8 +72,8 @@
 				
 				if (settings.arrows) {
 					var arrows = $("<div class=\"mod-arrows\"></div>"),
-						prev = $("<a href=\"#\">" + settings.textPrev + "</a>"),
-						next = $("<a href=\"#\">" + settings.textNext + "</a>");
+						prev = $("<a href=\"#\" class=\"prev\">" + settings.textPrev + "</a>"),
+						next = $("<a href=\"#\" class=\"next\">" + settings.textNext + "</a>");
 						
 					arrows.append(prev).append(next);
 					

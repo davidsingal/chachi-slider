@@ -13,3 +13,8 @@
 .mod-nav ul {margin: 0; padding: 0; list-style: none;}
 .mod-nav li {display: inline;}
 .mod-nav a {display: block; float: left; margin-left: 10px;}
+
+.mod-arrows {width: 0; height: 0;}
+.mod-arrows .prev, .mod-arrows .next {position: absolute; display: block; top: 45%;}
+.mod-arrows .prev {left: -30px;}
+.mod-arrows .next {right: -30px;}
