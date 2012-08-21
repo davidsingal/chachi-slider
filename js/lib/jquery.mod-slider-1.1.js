@@ -8,6 +8,7 @@
 	$.fn.modSlider = function(options) {
 		var settings = $.extend({
 			auto: true,
+			start: 1,
 			nav: true,
 			arrows: true,
 			textPrev: "<",
@@ -16,6 +17,8 @@
 			velocity: 1000
 		}, options);
 		
+		var active = false;
+		
 		var slider = {
 			init: function(el) {
 				var self = this,
@@ -23,11 +26,18 @@
 					panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>"),
 					wrapper = $("<div class=\"mod-wrapper\"></div>"),
 					panels = target.find(".mod-panel"),
-					panelWidth = $(target).width(),
+					panelWidth = target.width(),
 					navHtml = "",
 					links;
+				
+				var counter = settings.start - 1, 
+					timer, interval;
 					
-				var counter = 0, timer, interval;
+				if (!active) {
+					target.append(wrapper);	
+					wrapper.append(panelsWrapper);
+					panels.appendTo(panelsWrapper);
+				}
 				
 				target.append(wrapper);	
 				wrapper.append(panelsWrapper);
@@ -114,13 +124,16 @@
 				}
 				
 				function moveSlide(x) {
-					$(links).removeClass("current");
+					if (settings.nav) $(links).removeClass("current");
+					
 					panelsWrapper.stop().animate({
 						"left": -x * (panelWidth + 20)
 					}, settings.velocity, function() {
-						$(links[x]).addClass("current");
+						if (settings.nav) $(links[x]).addClass("current");
 					});
 				}
+				
+				panelsWrapper.css("left", -counter * (panelWidth + 20));
 				
 				$(window).resize(function() {
 					panelWidth = target.width();
