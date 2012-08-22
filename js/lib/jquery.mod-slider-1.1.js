@@ -34,14 +34,11 @@
 					timer, interval;
 					
 				if (!active) {
+					active = true;
 					target.append(wrapper);	
 					wrapper.append(panelsWrapper);
 					panels.appendTo(panelsWrapper);
 				}
-				
-				target.append(wrapper);	
-				wrapper.append(panelsWrapper);
-				panels.appendTo(panelsWrapper);
 				
 				self.size(panels, panelWidth, panelsWrapper);
 				
