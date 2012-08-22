@@ -26,23 +26,25 @@
 					panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>"),
 					wrapper = $("<div class=\"mod-wrapper\"></div>"),
 					panels = target.find(".mod-panel"),
-					panelWidth = target.width(),
 					navHtml = "",
+					panelWidth,
 					links;
 				
 				var counter = settings.start - 1, 
 					timer, interval;
 					
 				if (!active) {
-					active = true;
 					target.append(wrapper);	
 					wrapper.append(panelsWrapper);
 					panels.appendTo(panelsWrapper);
+					
+					target.show();
+					panelWidth = target.width();
+					self.size(panels, panelWidth, panelsWrapper);				
+					active = true;
 				}
 				
-				self.size(panels, panelWidth, panelsWrapper);
-				
-				target.show();
+				console.log(panelWidth);				
 				
 				if (settings.nav) {
 					var navigation = $("<div class=\"mod-nav\"></div>");
@@ -130,7 +132,11 @@
 					});
 				}
 				
-				panelsWrapper.css("left", -counter * (panelWidth + 20));
+				panelsWrapper.css({
+					"left": -counter * (panelWidth + 20)
+				});
+				
+				console.log(panelWidth);
 				
 				$(window).resize(function() {
 					panelWidth = target.width();
