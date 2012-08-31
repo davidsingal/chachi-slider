@@ -9,12 +9,12 @@
 .mod-panels-wrapper {position: relative; left: 0;}
 .mod-panel {position: relative; float: left;}
 
-.mod-nav {position: absolute; top: -30px; right: 0;}
-.mod-nav ul {margin: 0; padding: 0; list-style: none;}
-.mod-nav li {display: inline;}
-.mod-nav a {display: block; float: left; margin-left: 10px;}
+.mod-pag {position: absolute; top: -30px; right: 0;}
+.mod-pag ul {margin: 0; padding: 0; list-style: none;}
+.mod-pag li {display: inline;}
+.mod-pag a {display: block; float: left; margin-left: 10px;}
 
-.mod-arrows {width: 0; height: 0;}
-.mod-arrows .prev, .mod-arrows .next {position: absolute; display: block; top: 45%;}
-.mod-arrows .prev {left: -30px;}
-.mod-arrows .next {right: -30px;}
+.mod-nav {width: 0; height: 0;}
+.mod-nav .prev, .mod-nav .next {position: absolute; display: block; top: 45%;}
+.mod-nav .prev {left: -30px;}
+.mod-nav .next {right: -30px;}
