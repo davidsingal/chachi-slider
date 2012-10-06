@@ -1,3 +1,5 @@
+// Better when window load
 $(window).load(function() {
-	$("div#slider").modSlider();
+	//Very easy to run
+	$("div#slider").chachiSlider();
 });

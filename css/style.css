@@ -1,4 +1,7 @@
-body {width: 90%; min-width: 500px; max-width: 1200px; margin: auto;}
+body {width: 90%; min-width: 320px; max-width: 900px; margin: auto;}
 
-.mod-slider {margin: 100px 0;}
-.mod-nav .current {color: #c00;}
+.img_left {float: left; margin-right: 20px;}
+.img_right {float: right; margin-left: 20px;}
+
+.chachi-slider {margin: 100px 0;}
+.chachi-nav .current {color: #c00;}

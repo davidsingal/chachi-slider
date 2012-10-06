@@ -1,0 +1,20 @@
+/*
+ * jQuery chachi Chachi Slider v1.1
+ * Free to use and abuse.
+ * https://github.com/davidsingal/chachi-chachi-slider
+ */
+ 
+.chachi-slider {position: relative; display: none;}
+.chachi-wrapper {overflow: hidden;}
+.chachi-panels-wrapper {position: relative; left: 0;}
+.chachi-panel {position: relative; float: left;}
+
+.chachi-pag {position: absolute; top: -30px; right: 0;}
+.chachi-pag ul {margin: 0; padding: 0; list-style: none;}
+.chachi-pag li {display: inline;}
+.chachi-pag a {display: block; float: left; margin-left: 10px;}
+
+.chachi-nav {width: 0; height: 0;}
+.chachi-nav .prev, .chachi-nav .next {position: absolute; display: block; top: 45%;}
+.chachi-nav .prev {left: -30px;}
+.chachi-nav .next {right: -30px;}

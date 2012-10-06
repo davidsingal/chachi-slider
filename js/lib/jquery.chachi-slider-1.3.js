@@ -1,7 +1,7 @@
 /*
- * jQuery mod Mod Slider v1.2
+ * jQuery chachi chachi Slider v1.2
  * Free to use and abuse.
- * https://github.com/davidsingal/mod-slider
+ * https://github.com/davidsingal/chachi-slider
  */
 
 (function($) {
@@ -20,7 +20,7 @@
 			var settings = $.extend({
 				auto: true, //Autoslider with a timer
 				pause: 3000, //Timer of autoslider
-				velocity: 1000, //Velocity of transition
+				velocity: 500, //Velocity of transition
 				pagination: true, //If pagination(1,2,3...)
 				navigation: true, //If nav and prev navigation
 				textPrev: "<", //Text of prev link
@@ -28,9 +28,9 @@
 			}, options);
 			
 			//Structure
-			var panelsWrapper = $("<div class=\"mod-panels-wrapper\"></div>"),
-				wrapper = $("<div class=\"mod-wrapper\"></div>"),
-				panels = target.find(".mod-panel");
+			var panelsWrapper = $("<div class=\"chachi-panels-wrapper\"></div>"),
+				wrapper = $("<div class=\"chachi-wrapper\"></div>"),
+				panels = target.find(".chachi-panel");
 			
 			target.append(wrapper);
 			wrapper.append(panelsWrapper);
@@ -52,7 +52,7 @@
 			
 			//Pagination (1, 2, 3...)
 			if (settings.pagination && panels.length > 1) {
-				var pagination = $("<div class=\"mod-pag\"></div>"),
+				var pagination = $("<div class=\"chachi-pag\"></div>"),
 					htmlNav = "", links, t;
 				
 				target.append(pagination);
@@ -85,7 +85,7 @@
 			//Navigation
 			var prev, next;
 			if (settings.navigation) {
-				var navigation = $("<div class=\"mod-nav\"></div>");
+				var navigation = $("<div class=\"chachi-nav\"></div>");
 				prev = $("<a href=\"#\" class=\"prev\">" + settings.textPrev + "</a>");
 				next = $("<a href=\"#\" class=\"next\">" + settings.textNext + "</a>");
 					
@@ -172,18 +172,10 @@
 	};
 	
 
-	$.fn.modSlider = function(method) {
+	$.fn.chachiSlider = function(method) {
 		var self = this,
 			_arguments = arguments;
 		
-		return self.each(function() {
-			if (slider[method]) {
-				return slider[method].apply(this, Array.prototype.slice.call(_arguments, 1));
-			} else if (typeof method === "object" || !method) {
-				slider.init.apply(self, _arguments);
-			} else {
-				$.error("No existe " + method +  " en modSlider.");
-			}
-		});
+		slider.init.apply(self, _arguments);
 	};
 })(jQuery);
