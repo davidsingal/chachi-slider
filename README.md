@@ -1,4 +1,4 @@
-Mod slider 1.0
+Chachi slider 1.3
 =================
 
-A responsive slider for modules.
+A no intrusive and responsive slider
