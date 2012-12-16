@@ -1,5 +1,5 @@
 /*
- * jQuery chachi chachi Slider v1.2
+ * jQuery chachi chachi Slider v1.3
  * Free to use and abuse.
  * https://github.com/davidsingal/chachi-slider
  */
