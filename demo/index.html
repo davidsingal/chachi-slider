@@ -5,7 +5,9 @@
 		<title>Chachi Slider</title>
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="../chachi-slider.css">
-		<link rel="stylesheet" href="css/style.css">
+		<style>
+			body {width: 90%; min-width: 320px; max-width: 900px; margin: auto;}
+		</style>
 	</head>
 	<body>
 		<header>
@@ -43,8 +45,7 @@
 		
 		<!-- jQuery is required -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script src="../chachi-slider.js"></script>
-		<script src="js/script.js"></script>
+		<script src="../jquery.chachi-slider.js"></script>
 		<script>
 			window.onload = function() {
 				$("div#slider").chachiSlider(); //Start slider
