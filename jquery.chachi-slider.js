@@ -8,6 +8,19 @@
 	
 	var Slider = function(element, options) {
 		var opts = $.extend($.fn.chachiSlider.defaults, options);
+
+		var resizeCallback = (function() {
+			var timers = {};
+			return function(callback, ms, uniqueId) {
+				if (!uniqueId) {
+					uniqueId = "Don't call this twice without a uniqueId";
+				}
+				if (timers[uniqueId]) {
+					clearTimeout(timers[uniqueId]);
+				}
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
 		
 		var slider = {
 			init: function() {
@@ -45,7 +58,17 @@
 					self.next();
 				});
 
-				if (this.len > 0) this.$next.show();
+				if (this.len > 1) this.$next.show();
+
+				$(window).on('resize', function() {
+					function resizeSlide() {
+						self.w = self.$el.width();
+						self.$panels.width(self.w);
+						self.$slice.width(self.w * self.len);
+						self.move();
+					}					
+					resizeCallback(resizeSlide, 300, "slide");
+				});
 			},
 			next: function() {
 				slider.current++;
