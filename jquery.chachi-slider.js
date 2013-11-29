@@ -1,138 +1,124 @@
 /*
- * jQuery Chachi Slider v1.0
+ * jQuery Chachi Slider v2.0.0
  * Free to use and abuse.
  * https://github.com/davidsingal/chachi-slider
  */
 
-(function($, window, undefined) {
-	
-	var Slider = function(element, options) {
-		var opts = $.extend($.fn.chachiSlider.defaults, options);
+(function($, window, document, undefined) {
 
-		var resizeCallback = (function() {
-			var timers = {};
-			return function(callback, ms, uniqueId) {
-				if (!uniqueId) {
-					uniqueId = "Don't call this twice without a uniqueId";
-				}
-				if (timers[uniqueId]) {
-					clearTimeout(timers[uniqueId]);
-				}
-				timers[uniqueId] = setTimeout(callback, ms);
-			};
-		})();
-		
-		var slider = {
-			init: function() {
-				var self = this;
+  var ChachiSlider = function(element, options) {
 
-				this.$el = $(element);
-				this.$panels = this.$el.find('.chachi-panel');
-				this.$wrapper = $('<div class="chachi-wrapper"></div>');
-				this.$slice = $('<div class="chachi-slice"></div>');
-				this.$prev = $('<a href="#prev" class="chachi-prev">' + opts.prevText + '</a>');
-				this.$next = $('<a href="#next" class="chachi-next">' + opts.nextText + '</a>');
+    this.el = element;
+    this.$el = $(element);
 
-				this.len = this.$panels.length;
-				this.current = 0;
-				this.w = this.$el.width();
+    this.settings = $.extend($.fn.chachiSlider.defaults, options);
 
-				this.$el
-					.append(this.$wrapper)
-					.append(this.$prev)
-					.append(this.$next);
-				this.$wrapper.append(this.$slice);
-				this.$panels.appendTo(this.$slice)
-					.width(this.w);
+    this.init();
 
-				this.$slice.width(this.w * this.len);
+  };
 
-				//Events
-				this.$prev.on('click', function(e) {
-					e.preventDefault();
-					self.prev();
-				});
+  ChachiSlider.prototype = {
 
-				this.$next.on('click', function(e) {
-					e.preventDefault();
-					self.next();
-				});
+    init: function() {
 
-				if (this.len > 1) this.$next.show();
+      this.current = 0;
 
-				$(window).on('resize', function() {
-					function resizeSlide() {
-						self.w = self.$el.width();
-						self.$panels.width(self.w);
-						self.$slice.width(self.w * self.len);
-						self.move();
-					}					
-					resizeCallback(resizeSlide, 300, "slide");
-				});
-			},
-			next: function() {
-				slider.current++;
-				slider.move();
-			},
-			prev: function() {
-				slider.current--;
-				slider.move();
-			},
-			move: function() {
-				if (slider.current <= 0) {
-					slider.current = 0;
-					slider.$prev.fadeOut('fast');
-				} else {
-					slider.$prev.fadeIn('fast');
-				}
-				if (slider.current >= slider.len -1) {
-					slider.current = slider.len -1;
-					slider.$next.fadeOut('fast');
-				} else {
-					slider.$next.fadeIn('fast');
-				}
-				slider.$slice.css('left', -this.current * this.w);
-			}
-		};
+      this.createSlider();
 
-		// Initializer
-		slider.init();
+      if (this.settings.navigation) {
+        this.createNavigation();
+      }
 
-		// Public API
-		return {
-			next: slider.next,
-			prev: slider.prev
-		}
-	};
+    },
 
-	$.fn.chachiSlider = function(options) {
-		var $el = $(this);
+    createSlider: function() {
 
-		if (typeof options === 'string') {
-			var methods = $el.data('chachiSlider');
-			if (!$el.data('chachiSlider')) {
-				return $.error('First, you must create a slider');
-			}
-			if (methods[options]) {
-				methods[options]();
-				return this;
-			} else {
-				$.error('No exist "' + options + '" method in $.fn.chachiSlider');
-			}
-		} else {
-			return this.each(function() {				
-				if ($el.data('chachiSlider')) {
-					return $el.data('chachiSlider');
-				}
-				var chachiSlider = new Slider(this, options);
-				$el.data('chachiSlider', chachiSlider);
-			});
-		}
-	};
+      function eachSlide(i, slide) {
+        var slideHtml = $('<div class="chachi-slide-item"></div>'),
+          captionHtml = $('<div class="chachi-slide-caption"></div>'),
+          $slide = $(slide),
+          $caption = $($slide.data('caption'));
 
-	$.fn.chachiSlider.defaults = {
-		nextText: 'Next',
-		prevText: 'Prev'
-	};
+        slideHtml
+          .css('background-image', 'url(' + $slide.attr('src') + ')')
+          .append($caption.html());
 
-})(jQuery, window);
+        if (i === 0) {
+          slideHtml.addClass('current');
+        }
+
+        $slide
+          .after(slideHtml)
+          .remove();
+      };
+
+      this.$el.find('img').each(eachSlide);
+      this.$slides = this.$el.find('.chachi-slide-item');
+
+    },
+
+    createNavigation: function() {
+
+      var self = this;
+      this.next = $('<a href="#next" class="chachi-slide-next">&gt;</a>');
+      this.prev = $('<a href="#prev" class="chachi-slide-prev">&lt;</a>');
+
+      this.$el
+        .append(this.next)
+        .append(this.prev);
+
+      this.prev.hide();
+
+      this.prev.on('click', function(e) {
+        e.preventDefault();
+        self.transition(-1);
+      });
+
+      this.next.on('click', function(e) {
+        e.preventDefault();
+        self.transition(1);
+      });
+
+    },
+
+    transition: function(t) {
+      var len = this.$slides.length;
+
+      this.current = this.current + t;
+
+      if (this.current === len -1) {
+        this.next.hide();
+        this.prev.fadeIn('fast');
+      } else if (this.current === 0) {
+        this.prev.hide();
+        this.next.fadeIn('fast');
+      } else {
+        this.next.fadeIn('fast');
+        this.prev.fadeIn('fast');
+      }
+
+      this.$slides.removeClass('current');
+      $(this.$slides[this.current]).addClass('current');
+    }
+
+  };
+
+  $.fn.chachiSlider = function(options) {
+
+    return this.each(function() {
+
+      if (!$.data(this, "chachiSlider")) {
+
+        $.data(this, "chachiSlider", new ChachiSlider(this, options));
+
+      }
+
+    });
+
+  };
+
+  $.fn.chachiSlider.defaults = {
+    navigation: true
+  };
+
+})(jQuery, window, document);

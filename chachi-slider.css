@@ -1,16 +1,41 @@
 /*
- * jQuery Chachi Slider v1.0
+ * jQuery Chachi Slider v2.0.0
  * Free to use and abuse.
  * https://github.com/davidsingal/chachi-chachi-slider
  */
- 
-.chachi-slider {position: relative;}
-.chachi-wrapper {overflow: hidden;}
-.chachi-slice {position: relative; left: 0; -webkit-transition: left .3s ease; -moz-transition: left .3s ease; transition: left .3s ease;}
-.chachi-slice:before, .chachi-slice:after {display: table; content: " ";}
-.chachi-slice:after {clear: both;}
-.chachi-panel {position: relative; float: left;}
 
-.chachi-prev, .chachi-next {position: absolute; display: none; top: 45%; z-index: 9;}
-.chachi-prev {left: 1em;}
-.chachi-next {right: 1em;}
+.chachi-slider {
+  position: relative;
+}
+.chachi-slider > img,
+.chachi-slide-item > img {
+  display: none;
+}
+.chachi-html-caption {
+  display: none;
+}
+.chachi-slide-item {
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: no-repeat center center;
+  background-size: cover;
+}
+.chachi-slide-item.current {
+  opacity: 1;
+  z-index: 1;
+}
+.chachi-slide-next, .chachi-slide-prev {
+  display: block;
+  position: absolute;
+  top: 45%;
+  z-index: 2;
+}
+.chachi-slide-next {
+  right: 0;
+}
+.chachi-slide-prev {
+  left: 0;
+}
