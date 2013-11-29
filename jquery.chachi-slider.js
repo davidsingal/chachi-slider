@@ -35,13 +35,15 @@
 
       function eachSlide(i, slide) {
         var slideHtml = $('<div class="chachi-slide-item"></div>'),
-          captionHtml = $('<div class="chachi-slide-caption"></div>'),
+          captionHtml = $('<div class="chachi-caption"></div>'),
           $slide = $(slide),
           $caption = $($slide.data('caption'));
 
         slideHtml
           .css('background-image', 'url(' + $slide.attr('src') + ')')
           .append($caption.html());
+
+        $caption.wrap(captionHtml);
 
         if (i === 0) {
           slideHtml.addClass('current');
