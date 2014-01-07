@@ -1,7 +1,7 @@
 {
   "name": "chachi-slider",
   "version": "2.0.0",
-  "main": [
+  "files": [
     "jquery.chachi-slider.js",
     "chachi-slider.css"
   ],
