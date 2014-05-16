@@ -29,6 +29,10 @@
         this.createNavigation();
       }
 
+      if (!this.settings.manualAdvance) {
+        this.setTimer();
+      }
+
     },
 
     createSlider: function() {
@@ -56,6 +60,7 @@
 
       this.$el.find('img').each(eachSlide);
       this.$slides = this.$el.find('.chachi-slide-item');
+      this.len = this.$slides.length;
 
     },
 
@@ -74,17 +79,19 @@
       this.prev.on('click', function(e) {
         e.preventDefault();
         self.transition(-1);
+        self.setTimer();
       });
 
       this.next.on('click', function(e) {
         e.preventDefault();
         self.transition(1);
+        self.setTimer();
       });
 
     },
 
     transition: function(t) {
-      var len = this.$slides.length;
+      var len = this.len;
 
       this.current = this.current + t;
 
@@ -101,6 +108,25 @@
 
       this.$slides.removeClass('current');
       $(this.$slides[this.current]).addClass('current');
+    },
+
+    setTimer: function() {
+      var self = this;
+
+      this.removeTimer();
+
+      this.timer = setInterval(function() {
+        if (self.current === self.len - 1) {
+          self.current = -1;
+        }
+        self.transition(1);
+      }, this.settings.pauseTime);
+    },
+
+    removeTimer: function() {
+      if (this.timer) {
+        clearInterval(this.timer);
+      }
     }
 
   };
@@ -120,7 +146,10 @@
   };
 
   $.fn.chachiSlider.defaults = {
-    navigation: true
+    navigation: true, // show next and prev navigation
+    manualAdvance: false, // force manual transitions
+    pauseTime: 5000, // how long each slide will show,
+    carousel: true // at end, show the first slide again
   };
 
 })(jQuery, window, document);

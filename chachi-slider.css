@@ -7,7 +7,6 @@
 .chachi-slider {
   position: relative;
 }
-.chachi-slider > img,
 .chachi-slide-item > img {
   display: none;
 }
@@ -21,7 +20,14 @@
   top: 0;
   width: 100%;
   background: no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
   background-size: cover;
+  -webkit-transition: opacity .3s ease;
+  -moz-transition: opacity .3s ease;
+  -ms-transition: opacity .3s ease;
+  transition: opacity .3s ease;
 }
 .chachi-slide-item.current {
   opacity: 1;
