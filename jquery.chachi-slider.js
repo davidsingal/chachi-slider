@@ -39,15 +39,28 @@
 
       function eachSlide(i, slide) {
         var slideHtml = $('<div class="chachi-slide-item"></div>'),
-          captionHtml = $('<div class="chachi-slide-caption"></div>'),
-          $slide = $(slide),
-          $caption = $($slide.data('caption'));
+          $slide = $(slide);
 
-        captionHtml = captionHtml.append($caption.html());
+        if ($slide.attr('src')) {
+          if ($slide.data('caption') || $slide.attr('alt')) {
+            var captionHtml = $('<div class="chachi-slide-caption"></div>'),
+              caption;
 
-        slideHtml
-          .css('background-image', 'url(' + $slide.attr('src') + ')')
-          .append(captionHtml);
+            if ($slide.data('caption')) {
+              caption = $($slide.data('caption')).html();
+            } else {
+              caption = '<p>' + $slide.attr('alt') + '</p>';
+            }
+
+            captionHtml = captionHtml.append(caption);
+          }
+
+          slideHtml
+            .css('background-image', 'url(' + $slide.attr('src') + ')')
+            .append(captionHtml);
+        } else {
+          slideHtml.append($slide.html());
+        }
 
         if (i === 0) {
           slideHtml.addClass('current');
@@ -56,9 +69,9 @@
         $slide
           .after(slideHtml)
           .remove();
-      };
+      }
 
-      this.$el.find('img').each(eachSlide);
+      this.$el.find('.chachi-item').each(eachSlide);
       this.$slides = this.$el.find('.chachi-slide-item');
       this.len = this.$slides.length;
 
