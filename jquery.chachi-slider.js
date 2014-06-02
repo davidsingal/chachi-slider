@@ -101,6 +101,10 @@
         self.setTimer();
       });
 
+      if (this.settings.carousel) {
+        this.prev.fadeIn('fast');
+      }
+
     },
 
     transition: function(t) {
@@ -108,15 +112,23 @@
 
       this.current = this.current + t;
 
-      if (this.current === len -1) {
-        this.next.hide();
-        this.prev.fadeIn('fast');
-      } else if (this.current === 0) {
-        this.prev.hide();
-        this.next.fadeIn('fast');
+      if (!this.settings.carousel) {
+        if (this.current === len -1) {
+          this.next.hide();
+          this.prev.fadeIn('fast');
+        } else if (this.current === 0) {
+          this.prev.hide();
+          this.next.fadeIn('fast');
+        } else {
+          this.next.fadeIn('fast');
+          this.prev.fadeIn('fast');
+        }
       } else {
-        this.next.fadeIn('fast');
-        this.prev.fadeIn('fast');
+        if (this.current < 0) {
+          this.current = this.len - 1;
+        } else if (this.current === this.len) {
+          this.current = 0;
+        }
       }
 
       this.$slides.removeClass('current');
