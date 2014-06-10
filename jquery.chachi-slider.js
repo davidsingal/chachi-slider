@@ -11,7 +11,7 @@
     this.el = element;
     this.$el = $(element);
 
-    this.settings = $.extend($.fn.chachiSlider.defaults, options);
+    this.settings = $.extend({}, $.fn.chachiSlider.defaults, options);
 
     this.init();
 
