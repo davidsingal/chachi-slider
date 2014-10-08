@@ -7,18 +7,18 @@
 .chachi-slider {
   position: relative;
 }
-.chachi-slide-item > img {
-  display: none;
+.chachi-slide-item > .is-chachi-image {
+  visibility: hidden;
 }
 .chachi-html-caption {
   display: none;
 }
 .chachi-slide-item {
+  position: absolute;
+  width: 100%;
   height: 100%;
   opacity: 0;
-  position: absolute;
   top: 0;
-  width: 100%;
   background: no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -29,7 +29,17 @@
   -ms-transition: opacity .3s ease;
   transition: opacity .3s ease;
 }
+.chachi-slide-item:after,
+.chachi-slide-item:before {
+  content: '';
+  display: table;
+}
+.chachi-slide-item:after {
+  clear: both;
+}
 .chachi-slide-item.is-chachi-current {
+  position: relative;
+  height: auto;
   opacity: 1;
   z-index: 1;
 }
