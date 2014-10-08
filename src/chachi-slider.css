@@ -1,5 +1,5 @@
 /*
- * jQuery Chachi Slider v2.0.0
+ * jQuery Chachi Slider v2.1.0
  * Free to use and abuse.
  * https://github.com/davidsingal/chachi-chachi-slider
  */
@@ -29,7 +29,7 @@
   -ms-transition: opacity .3s ease;
   transition: opacity .3s ease;
 }
-.chachi-slide-item.current {
+.chachi-slide-item.is-chachi-current {
   opacity: 1;
   z-index: 1;
 }
