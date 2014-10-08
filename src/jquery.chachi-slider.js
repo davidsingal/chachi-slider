@@ -13,7 +13,8 @@
     manualAdvance: false, // force manual transitions
     pauseTime: 5000, // how long each slide will show,
     carousel: true, // at end, show the first slide again,
-    startAt: 0 // slide position to start
+    startAt: 0, // slide position to start,
+    height: 'auto' // force height or not
   };
 
   var ChachiSlider = function(element, options) {
@@ -43,13 +44,21 @@
 
       this.$el.html('');
 
+      if (this.settings.height !== 'auto') {
+        this.$el
+          .height(this.settings.height)
+          .css('overflow', 'hidden');
+      }
+
       items.each($.proxy(function(index, item) {
         var slideHTML = document.createElement('DIV');
 
         slideHTML.className = 'chachi-slide-item';
 
         if (item.tagName === 'IMG') {
+          item.className = item.className + ' is-chachi-image';
           slideHTML.style['background-image'] = 'url(' + item.src + ')';
+          slideHTML.innerHTML = item.outerHTML;
           // TODO: Add captions
         } else {
           slideHTML.innerHTML = item.innerHTML;
